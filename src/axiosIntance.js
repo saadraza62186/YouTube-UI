@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: "https://youtube-backened.vercel.app/api",
   withCredentials: true,
   timeout: 30000,
   headers: {
