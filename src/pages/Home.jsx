@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
 import styled from "styled-components";
 import axios from "axios";
+import axiosInstance from "../axiosIntance";
 
 const Home = ({ type }) => {
   const [videos, setVideos] = useState([]);
@@ -12,7 +13,7 @@ const Home = ({ type }) => {
     const fetchVideos = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/api/videos/${type}`);
+        const res = await axiosInstance.get(`/api/videos/${type}`);
         setVideos(res.data);
         setLoading(false);
       } catch (error) {
