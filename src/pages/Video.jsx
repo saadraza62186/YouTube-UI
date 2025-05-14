@@ -27,7 +27,7 @@ const Video = () => {
         setLoading(true);
         const videoRes = await axios.get(`/videos/find/${path}`);
         const channelRes = await axios.get(
-          `/api/users/find/${videoRes.data.userId}`
+          `/users/find/${videoRes.data.userId}`
         );
 
         setChannel(channelRes.data);
