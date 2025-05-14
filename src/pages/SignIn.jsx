@@ -54,23 +54,25 @@ const handleSubmit = async (e) => {
 };
 
 
-  const signInWithGoogle = async () => {
-    dispatch(loginStart());
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const res = await axiosInstance.post("/auth/google", {
-        name: result.user.displayName,
-        email: result.user.email,
-        img: result.user.photoURL,
-      });
-      dispatch(loginSuccess(res.data));
-      navigate("/");
-    } catch (error) {
-      console.error("Google sign-in error:", error);
-      setError("Google sign-in failed");
-      dispatch(loginFailure());
-    }
-  };
+ const signInWithGoogle = async () => {
+  dispatch(loginStart());
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const res = await axiosInstance.post("/auth/google", {
+      name: result.user.displayName,
+      email: result.user.email,
+      img: result.user.photoURL,
+      googleId: result.user.uid, // Pass the googleId as well
+    });
+    dispatch(loginSuccess(res.data));
+    navigate("/");
+  } catch (error) {
+    console.error("Google sign-in error:", error);
+    setError("Google sign-in failed");
+    dispatch(loginFailure());
+  }
+};
+
 
   return (
     <Container>
