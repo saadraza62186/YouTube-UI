@@ -41,7 +41,7 @@ function Menu({ darkMode, setDarkMode }) {
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
             <Logo>
               <Img src={youtube} alt="" />
-              Youtube
+              Funtube
             </Logo>
           </Link>
 

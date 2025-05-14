@@ -110,11 +110,11 @@ const handleSubmit = async (e) => {
           </Button>
         </Form>
         
-        <Divider>or</Divider>
+        {/* <Divider>or</Divider> */}
         
-        <GoogleButton onClick={signInWithGoogle}>
+        {/* <GoogleButton onClick={signInWithGoogle}>
           Sign in with Google
-        </GoogleButton>
+        </GoogleButton> */}
         
         <ToggleContainer>
           {isSignUp ? "Already have an account?" : "Don't have an account?"}
