@@ -113,7 +113,7 @@ const Upload = ({ setOpen }) => {
 
       if (res.status === 200) {
         setOpen(false)
-        navigate("/video/" + res.data._id)
+        navigate("/video" + res.data._id)
       }
     } catch (error) {
       console.error("❌ Backend Upload Failed:", error)
