@@ -37,7 +37,7 @@ const handleSubmit = async (e) => {
   try {
     if (isSignUp) {
       // Sign up logic
-      const res = await axiosInstance.post("/auth/signup", { name, email, password });
+      const res = await axiosInstance.post("/auth/signup", { name : name, email : email, password: password });
       dispatch(loginSuccess(res.data));
       navigate("/");
     } else {
