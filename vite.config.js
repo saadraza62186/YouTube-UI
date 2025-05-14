@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:8800',
+        target: 'https://youtube-ui-gamma.vercel.app/api', // Your backend server URL
         changeOrigin: true,
         // The rewrite is unnecessary since you want to keep /api in the path
         // If your backend expects /api in the URL, you can remove this line
