@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import Card from "../components/Card";
+import axiosInstance from "../axiosInstance";
 
 const Search = () => {
   const [videos, setVideos] = useState([]);
@@ -14,7 +15,7 @@ const Search = () => {
     const fetchVideos = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/videos/search?q=${query}`);
+        const res = await axiosInstance.get(`/videos/search?q=${query}`);
         setVideos(res.data);
         setLoading(false);
       } catch (err) {

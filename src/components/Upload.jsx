@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import axios from "axios"
+import axiosInstance from "../axiosInstance"
 
 const Upload = ({ setOpen }) => {
   const [img, setImg] = useState(undefined)
@@ -106,7 +107,7 @@ const Upload = ({ setOpen }) => {
     console.log("📤 Uploading to backend with data:", { ...inputs, tags })
 
     try {
-      const res = await axios.post("/videos", { ...inputs, tags })
+      const res = await axiosInstance.post("/videos", { ...inputs, tags })
 
       console.log("✅ Response from backend:", res.data)
 

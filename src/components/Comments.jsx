@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Comment from "./Comment";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import axiosInstance from "../axiosInstance";
 
 const Comments = ({ videoId }) => {
   const [comments, setComments] = useState([]);
@@ -11,7 +12,7 @@ const Comments = ({ videoId }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`/comments/${videoId}`);
+        const res = await axiosInstance.get(`/comments/${videoId}`);
         setComments(res.data); // ✅ Removed unnecessary res.json()
       } catch (error) {
         console.error("Error fetching comments:", error);

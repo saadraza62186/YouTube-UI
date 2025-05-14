@@ -6,6 +6,7 @@ import { loginFailure, loginStart, loginSuccess } from "../redux/userSlice";
 import { auth, provider } from "../firebase";
 import { signInWithPopup } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import axiosInstance from "../axiosInstance";
 
 const SignIn = () => {
   const [name, setName] = useState("");
@@ -35,12 +36,12 @@ const SignIn = () => {
     try {
       if (isSignUp) {
         // Sign up logic
-        const res = await axios.post("/auth/signup", { name, email, password });
+        const res = await axiosInstance.post("/auth/signup", { name, email, password });
         dispatch(loginSuccess(res.data));
         navigate("/");
       } else {
         // Sign in logic
-        const res = await axios.post("/auth/signin", { name, password });
+        const res = await axiosInstance.post("/auth/signin", { name, password });
         dispatch(loginSuccess(res.data));
         navigate("/");
       }
@@ -55,7 +56,7 @@ const SignIn = () => {
     dispatch(loginStart());
     try {
       const result = await signInWithPopup(auth, provider);
-      const res = await axios.post("/auth/google", {
+      const res = await axiosInstance.post("/auth/google", {
         name: result.user.displayName,
         email: result.user.email,
         img: result.user.photoURL,

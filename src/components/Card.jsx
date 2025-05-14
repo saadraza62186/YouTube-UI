@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import {format} from 'timeago.js'
+import axiosInstance from '../axiosInstance'
 
 const Card = ({type, video}) => {
   const [channel, setChannel] = useState({});
@@ -11,7 +12,7 @@ const Card = ({type, video}) => {
     const fetchChannel = async () => {
       try {
         // Fixed the double slash in the URL
-        const res = await axios.get(`/users/find/${video.userId}`);
+        const res = await axiosInstance.get(`/users/find/${video.userId}`);
         setChannel(res.data);
       } catch (error) {
         console.error("Error fetching channel:", error);

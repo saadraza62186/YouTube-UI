@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { dislike, fetchSuccess, like } from "../redux/videoSlice";
 import { subscription } from "../redux/userSlice";
+import axiosInstance from "../axiosInstance";
 
 const Video = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -25,8 +26,8 @@ const Video = () => {
     const fetchVideo = async () => {
       try {
         setLoading(true);
-        const videoRes = await axios.get(`/videos/find/${path}`);
-        const channelRes = await axios.get(
+        const videoRes = await axiosInstance.get(`/videos/find/${path}`);
+        const channelRes = await axiosInstance.get(
           `/users/find/${videoRes.data.userId}`
         );
 
@@ -45,7 +46,7 @@ const Video = () => {
   const HandleLike = async () => {
     if (!currentUser) return;
     try {
-      await axios.put(`/users/like/${currentVideo._id}`);
+      await axiosInstance.put(`/users/like/${currentVideo._id}`);
       dispatch(like(currentUser._id));
     } catch (error) {
       console.error("Error liking video:", error);
@@ -55,7 +56,7 @@ const Video = () => {
   const HandleDislike = async () => {
     if (!currentUser) return;
     try {
-      await axios.put(`/users/dislike/${currentVideo._id}`);
+      await axiosInstance.put(`/users/dislike/${currentVideo._id}`);
       dispatch(dislike(currentUser._id));
     } catch (error) {
       console.error("Error disliking video:", error);
@@ -66,9 +67,9 @@ const Video = () => {
     if (!currentUser) return;
     try {
       if (currentUser.subscribedUsers?.includes(channel._id)) {
-        await axios.put(`/users/unsub/${channel._id}`);
+        await axiosInstance.put(`/users/unsub/${channel._id}`);
       } else {
-        await axios.put(`/users/sub/${channel._id}`);
+        await axiosInstance.put(`/users/sub/${channel._id}`);
       }
       dispatch(subscription(channel._id));
     } catch (error) {

@@ -1,13 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import axiosInstance from "../axiosInstance";
 
 const Comment = ({ comment }) => {
   const [channel, setChannel] = useState({});
 
   useEffect(() => {
     const fetchComment = async () => {
-      const channelRes = await axios.get(`/users/find/${comment.userId}`);
+      const channelRes = await axiosInstance.get(`/users/find/${comment.userId}`);
       setChannel(channelRes.data);
     };
     fetchComment();
