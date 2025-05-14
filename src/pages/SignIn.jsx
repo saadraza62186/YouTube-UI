@@ -20,44 +20,38 @@ const SignIn = () => {
   // SignIn function
 const handleSubmit = async (e) => {
   e.preventDefault();
-  setError("");  // Clear previous errors
+  setError("");
 
-  // Validation for SignUp
   if (isSignUp && (!name || !email || !password)) {
     setError("All fields are required for sign up");
     return;
   }
 
-  // Validation for SignIn
-  if (!isSignUp && (!email || !password)) {
-    setError("Email and password are required");
+  if (!isSignUp && (!name || !password)) {
+    setError("Username and password are required");
     return;
   }
 
   dispatch(loginStart());
 
   try {
-    let url = isSignUp ? "/auth/signup" : "/auth/signin";
-    let data = isSignUp 
-      ? { name, email, password } 
-      : { email, password };
-
-    const res = await axiosInstance.post(url, data);
-    dispatch(loginSuccess(res.data));
-    navigate("/");  // Navigate to the homepage after successful login/signup
+    if (isSignUp) {
+      // Sign up logic
+      const res = await axiosInstance.post("/auth/signup", { name : name, email : email, password: password });
+      dispatch(loginSuccess(res.data));
+      navigate("/");
+    } else {
+      // Sign in logic
+      const res = await axiosInstance.post("/auth/signin", { name: name, email: email, password });
+      dispatch(loginSuccess(res.data));
+      navigate("/");
+    }
   } catch (err) {
     console.error("Authentication error:", err);
-
-    // Detailed error handling
-    if (err.response) {
-      setError(err.response.data.message || "An error occurred, please try again.");
-    } else {
-      setError("Network error. Please check your connection.");
-    }
+    setError(err.response?.data?.message || "Authentication failed");
     dispatch(loginFailure());
   }
 };
-
 
 
  const signInWithGoogle = async () => {
