@@ -14,7 +14,7 @@ const Search = () => {
     const fetchVideos = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/api/videos/search?q=${query}`);
+        const res = await axios.get(`/videos/search?q=${query}`);
         setVideos(res.data);
         setLoading(false);
       } catch (err) {

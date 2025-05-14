@@ -106,7 +106,7 @@ const Upload = ({ setOpen }) => {
     console.log("📤 Uploading to backend with data:", { ...inputs, tags })
 
     try {
-      const res = await axios.post("/api/videos", { ...inputs, tags })
+      const res = await axios.post("/videos", { ...inputs, tags })
 
       console.log("✅ Response from backend:", res.data)
 

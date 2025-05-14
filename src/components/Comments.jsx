@@ -11,7 +11,7 @@ const Comments = ({ videoId }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`/api/comments/${videoId}`);
+        const res = await axios.get(`/comments/${videoId}`);
         setComments(res.data); // ✅ Removed unnecessary res.json()
       } catch (error) {
         console.error("Error fetching comments:", error);

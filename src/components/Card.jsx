@@ -11,7 +11,7 @@ const Card = ({type, video}) => {
     const fetchChannel = async () => {
       try {
         // Fixed the double slash in the URL
-        const res = await axios.get(`/api/users/find/${video.userId}`);
+        const res = await axios.get(`/users/find/${video.userId}`);
         setChannel(res.data);
       } catch (error) {
         console.error("Error fetching channel:", error);

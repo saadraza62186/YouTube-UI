@@ -25,7 +25,7 @@ const Video = () => {
     const fetchVideo = async () => {
       try {
         setLoading(true);
-        const videoRes = await axios.get(`/api/videos/find/${path}`);
+        const videoRes = await axios.get(`/videos/find/${path}`);
         const channelRes = await axios.get(
           `/api/users/find/${videoRes.data.userId}`
         );
@@ -45,7 +45,7 @@ const Video = () => {
   const HandleLike = async () => {
     if (!currentUser) return;
     try {
-      await axios.put(`/api/users/like/${currentVideo._id}`);
+      await axios.put(`/users/like/${currentVideo._id}`);
       dispatch(like(currentUser._id));
     } catch (error) {
       console.error("Error liking video:", error);
@@ -55,7 +55,7 @@ const Video = () => {
   const HandleDislike = async () => {
     if (!currentUser) return;
     try {
-      await axios.put(`/api/users/dislike/${currentVideo._id}`);
+      await axios.put(`/users/dislike/${currentVideo._id}`);
       dispatch(dislike(currentUser._id));
     } catch (error) {
       console.error("Error disliking video:", error);
@@ -66,9 +66,9 @@ const Video = () => {
     if (!currentUser) return;
     try {
       if (currentUser.subscribedUsers?.includes(channel._id)) {
-        await axios.put(`/api/users/unsub/${channel._id}`);
+        await axios.put(`/users/unsub/${channel._id}`);
       } else {
-        await axios.put(`/api/users/sub/${channel._id}`);
+        await axios.put(`/users/sub/${channel._id}`);
       }
       dispatch(subscription(channel._id));
     } catch (error) {
