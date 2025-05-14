@@ -17,40 +17,42 @@ const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    
-    if (isSignUp && (!name || !email || !password)) {
-      setError("All fields are required for sign up");
-      return;
+  // SignIn function
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setError("");
+
+  if (isSignUp && (!name || !email || !password)) {
+    setError("All fields are required for sign up");
+    return;
+  }
+
+  if (!isSignUp && (!name || !password)) {
+    setError("Username and password are required");
+    return;
+  }
+
+  dispatch(loginStart());
+
+  try {
+    if (isSignUp) {
+      // Sign up logic
+      const res = await axiosInstance.post("/auth/signup", { name, email, password });
+      dispatch(loginSuccess(res.data));
+      navigate("/");
+    } else {
+      // Sign in logic
+      const res = await axiosInstance.post("/auth/signin", { name: name, email: email, password });
+      dispatch(loginSuccess(res.data));
+      navigate("/");
     }
-    
-    if (!isSignUp && (!name || !password)) {
-      setError("Username and password are required");
-      return;
-    }
-    
-    dispatch(loginStart());
-    
-    try {
-      if (isSignUp) {
-        // Sign up logic
-        const res = await axiosInstance.post("/auth/signup", { name, email, password });
-        dispatch(loginSuccess(res.data));
-        navigate("/");
-      } else {
-        // Sign in logic
-        const res = await axiosInstance.post("/auth/signin", { name, password });
-        dispatch(loginSuccess(res.data));
-        navigate("/");
-      }
-    } catch (err) {
-      console.error("Authentication error:", err);
-      setError(err.response?.data?.message || "Authentication failed");
-      dispatch(loginFailure());
-    }
-  };
+  } catch (err) {
+    console.error("Authentication error:", err);
+    setError(err.response?.data?.message || "Authentication failed");
+    dispatch(loginFailure());
+  }
+};
+
 
   const signInWithGoogle = async () => {
     dispatch(loginStart());
