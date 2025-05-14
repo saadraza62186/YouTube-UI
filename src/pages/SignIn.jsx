@@ -19,39 +19,59 @@ const SignIn = () => {
 
   // SignIn function
 const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
+    e.preventDefault()
+    setError("")
 
-  if (isSignUp && (!name || !email || !password)) {
-    setError("All fields are required for sign up");
-    return;
-  }
-
-  if (!isSignUp && (!name || !password)) {
-    setError("Username and password are required");
-    return;
-  }
-
-  dispatch(loginStart());
-
-  try {
-    if (isSignUp) {
-      // Sign up logic
-      const res = await axiosInstance.post("/auth/signup", { name : name, email : email, password: password });
-      dispatch(loginSuccess(res.data));
-      navigate("/");
-    } else {
-      // Sign in logic
-      const res = await axiosInstance.post("/auth/signin", { name: name, email: email, password });
-      dispatch(loginSuccess(res.data));
-      navigate("/");
+    if (isSignUp && (!name || !email || !password)) {
+      setError("All fields are required for sign up")
+      return
     }
-  } catch (err) {
-    console.error("Authentication error:", err);
-    setError(err.response?.data?.message || "Authentication failed");
-    dispatch(loginFailure());
+
+    if (!isSignUp && (!name || !password)) {
+      setError("Username and password are required")
+      return
+    }
+
+    dispatch(loginStart())
+
+    try {
+      if (isSignUp) {
+        // Sign up logic
+        const res = await axiosInstance.post("/auth/signup", {
+          name: name,
+          email: email,
+          password: password,
+        })
+
+        // Make sure user data is properly stored in Redux
+        if (res.data) {
+          dispatch(loginSuccess(res.data))
+          navigate("/")
+        } else {
+          throw new Error("No user data returned from signup")
+        }
+      } else {
+        // Sign in logic
+        const res = await axiosInstance.post("/auth/signin", {
+          name: name,
+          email: email,
+          password,
+        })
+
+        // Make sure user data is properly stored in Redux
+        if (res.data) {
+          dispatch(loginSuccess(res.data))
+          navigate("/")
+        } else {
+          throw new Error("No user data returned from signin")
+        }
+      }
+    } catch (err) {
+      console.error("Authentication error:", err)
+      setError(err.response?.data?.message || "Authentication failed")
+      dispatch(loginFailure())
+    }
   }
-};
 
 
  const signInWithGoogle = async () => {
